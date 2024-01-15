@@ -11,26 +11,12 @@ return {
 			--  vim.keymap.set('n', '<A-o>', builtin.buffers, {})
 		end,
 		keys = {
-			{
-				"<C-p>",
-				"<cmd>Telescope find_files<CR>",
-				desc = "Find files",
-			},
-			{
-				"<Leader>b",
-				"<cmd>Telescope buffers<CR>",
-				desc = "Find buffers",
-			},
-			{
-				"<Leader>g",
-				"<cmd>Telescope live_grep<CR>",
-				desc = "Live grep",
-			},
-			{
-				"<Leader>f",
-				"<cmd>Telescope current_buffer_fuzzy_find<CR>",
-				desc = "Find in current buffer",
-			},
+			{ "<leader>tf", "<cmd>Telescope find_files<CR>", desc = "Find files" },
+			{ "<Leader>tb", "<cmd>Telescope buffers<CR>", desc = "Find buffers" },
+			{ "<Leader>tg", "<cmd>Telescope live_grep<CR>", desc = "Live grep" },
+			{ "<Leader>/", "<cmd>Telescope current_buffer_fuzzy_find<CR>", desc = "Find in current buffer" },
+			{ "<leader>sh", "<cmd>Telescope help_tags<CR>", desc = "Help Pages" },
+			{ "<leader>b", "<cmd>Telescope buffers sort_mru=true sort_lastused=true<cr>", desc = "Buffers" },
 		},
 	},
 	{
