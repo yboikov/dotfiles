@@ -26,7 +26,7 @@ vim.o.titlestring = "%t"
 vim.o.completeopt = "menu,menuone,noselect"
 
 vim.g.autoformat = true
-vim.g.mapleader = "\\"
+vim.g.mapleader = " "
 
 vim.g.netrw_liststyle = 3
 vim.g.netrw_winsize = 30

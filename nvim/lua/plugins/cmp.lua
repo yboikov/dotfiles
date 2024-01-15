@@ -33,11 +33,28 @@ return {
 			formatting = {
 				fields = { "menu", "abbr", "kind" },
 			},
-			mapping = {
+			mapping = cmp.mapping.preset.insert({
+				["<C-k>"] = cmp.mapping.select_prev_item(),
+				["<C-j>"] = cmp.mapping.select_next_item(),
+				["<C-b>"] = cmp.mapping.scroll_docs(-4),
+				["<C-f>"] = cmp.mapping.scroll_docs(4),
+				["<C-Space>"] = cmp.mapping.complete(),
+				["<C-e>"] = cmp.mapping.abort(),
 				["<CR>"] = cmp.mapping.confirm({ select = true }),
-				["<Up>"] = cmp.mapping.select_prev_item(select_opts),
-				["<Down>"] = cmp.mapping.select_next_item(select_opts),
-				["<C-f>"] = cmp.mapping(function(fallback)
+				-- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+				["<tab>"] = cmp.mapping(function(fallback)
+					if luasnip.jumpable(1) then
+						luasnip.jump(1)
+					else
+						fallback()
+					end
+				end, { "i", "s" }),
+			}),
+			--[[ mapping = {
+				["<cr>"] = cmp.mapping.confirm({ select = true }),
+				["<up>"] = cmp.mapping.select_prev_item(select_opts),
+				["<down>"] = cmp.mapping.select_next_item(select_opts),
+				["<c-f>"] = cmp.mapping(function(fallback)
 					if luasnip.jumpable(1) then
 						luasnip.jump(1)
 					else
@@ -45,14 +62,14 @@ return {
 					end
 				end, { "i", "s" }),
 
-				["<C-b>"] = cmp.mapping(function(fallback)
+				["<c-b>"] = cmp.mapping(function(fallback)
 					if luasnip.jumpable(-1) then
 						luasnip.jump(-1)
 					else
 						fallback()
 					end
 				end, { "i", "s" }),
-				["<Tab>"] = cmp.mapping(function(fallback)
+				["<tab>"] = cmp.mapping(function(fallback)
 					local col = vim.fn.col(".") - 1
 
 					if cmp.visible() then
@@ -63,14 +80,14 @@ return {
 						cmp.complete()
 					end
 				end, { "i", "s" }),
-				["<S-Tab>"] = cmp.mapping(function(fallback)
+				["<s-tab>"] = cmp.mapping(function(fallback)
 					if cmp.visible() then
 						cmp.select_prev_item(select_opts)
 					else
 						fallback()
 					end
 				end, { "i", "s" }),
-			},
+			}, ]]
 		})
 	end,
 }
