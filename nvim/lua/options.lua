@@ -15,7 +15,7 @@ vim.o.splitright = true
 vim.o.undofile = true
 vim.o.undolevels = 10000
 vim.o.updatetime = 200
-vim.o.scrolloff = 4
+vim.o.scrolloff = 8
 vim.o.ignorecase = true
 vim.o.smartcase = true
 

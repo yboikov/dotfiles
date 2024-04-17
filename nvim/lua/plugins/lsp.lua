@@ -18,6 +18,7 @@ return {
 					-- "pyright",
 					"html",
 					"htmx",
+					"terraformls",
 				},
 			})
 		end,
@@ -46,6 +47,7 @@ return {
 			})
 			lspconfig.templ.setup({})
 			lspconfig.lua_ls.setup({})
+			lspconfig.terraformls.setup({})
 			-- GoLang --
 			lspconfig.gopls.setup({
 				on_attach = on_attach,

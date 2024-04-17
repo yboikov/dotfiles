@@ -9,3 +9,5 @@ vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', {})
 vim.keymap.set({ "n", "v" }, "<leader>D", '"_D', {})
 
 vim.keymap.set({ "n", "v" }, "<leader><space>", "<CMD>set hls!<CR>")
+
+vim.keymap.set({ "n", "v" }, "<leader>x", "<CMD>bdelete<CR>")
