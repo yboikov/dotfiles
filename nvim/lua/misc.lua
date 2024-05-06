@@ -9,6 +9,7 @@ local exclude = {
 	mason = true,
 	oil = true,
 	help = true,
+	lazygit = true,
 }
 
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave" }, {

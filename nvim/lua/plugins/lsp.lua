@@ -33,6 +33,7 @@ return {
 		config = function()
 			local lspconfig = require("lspconfig")
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
+			local opts = {}
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
 					vim.keymap.set("n", "K", vim.lsp.buf.hover, { buffer = args.buf })
@@ -46,11 +47,20 @@ return {
 				max_width = "90",
 			})
 			lspconfig.templ.setup({})
-			lspconfig.lua_ls.setup({})
+			lspconfig.lua_ls.setup({
+				settings = {
+					Lua = {
+						diagnostics = {
+							-- Get the language server to recognize the `vim` global
+							globals = { "vim" },
+						},
+					},
+				},
+			})
 			lspconfig.terraformls.setup({})
 			-- GoLang --
 			lspconfig.gopls.setup({
-				on_attach = on_attach,
+				-- on_attach = on_attach,
 				capabilities = capabilities,
 				settings = {
 					gopls = {
