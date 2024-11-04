@@ -12,7 +12,7 @@ return {
 				python = { "pylint" },
 				sh = { "shellcheck" },
 				puppet = { "puppet-lint" },
-				-- go = { "gofumpt", "goimports" },
+				-- go = { "goimports" },
 			}
 			local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
