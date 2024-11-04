@@ -17,7 +17,11 @@ ssh() {
     if [[ ! -z $TMUX ]]; then
         SERVER=$(command ssh -G $@ | grep ^hostname | awk '{print $2}')
         # printf "\033]2;󰌘 $SERVER\007"
-        printf "\033]2;󰌘 ${SERVER%%.*}\007"
+        if [[ $SERVER =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            printf "\033]2;󰌘 ${SERVER}\007"
+        else
+            printf "\033]2;󰌘 ${SERVER%%.*}\007"
+        fi    
     fi
     command ssh "$@"
 }
