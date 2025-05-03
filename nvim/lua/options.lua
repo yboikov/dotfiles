@@ -1,3 +1,10 @@
+vim.diagnostic.config({
+  virtual_text = true,       -- show inline messages
+  signs = true,              -- show signs in the gutter
+  underline = true,          -- underline the problem
+  update_in_insert = false,
+  severity_sort = true,
+})
 vim.o.ignorecase = true
 vim.o.shiftwidth = 4
 vim.o.tabstop = 4

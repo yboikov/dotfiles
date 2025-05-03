@@ -5,9 +5,5 @@ return {
         init = function()
             vim.cmd.colorscheme("kanagawa-dragon")
         end,
-    },
-
-    {
-        "folke/tokyonight.nvim",
-    },
+    }
 }

@@ -82,7 +82,7 @@ outer.right =      5
 # - Arrows.         left, down, up, right
 
 # All possible modifiers: cmd, alt, ctrl, shift
-
+#alt-t = 'exec-and-forget open /Applications/kitty.app'
 # All possible commands: https://nikitabobko.github.io/AeroSpace/commands
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
@@ -94,6 +94,7 @@ outer.right =      5
 # end tell'
 # '''
 
+alt-z = 'fullscreen' #Finder
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
 alt-comma = 'layout accordion horizontal vertical'
@@ -138,7 +139,7 @@ alt-m = 'workspace M' #Mail
 alt-q = 'workspace Q' #Teams retina display
 # alt-r = 'workspace R'
 # alt-s = 'workspace S' 
-alt-t = 'workspace T' # Terminal
+alt-t = 'workspace T ' # Terminal
 # alt-u = 'workspace U'
 # alt-v = 'workspace V'
 # alt-w = 'workspace W'

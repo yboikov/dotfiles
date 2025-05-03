@@ -11,6 +11,7 @@ local exclude = {
 	oil = true,
 	help = true,
 	lazygit = true,
+    NvimTree = true,
 }
 
 vim.api.nvim_create_autocmd({ "BufEnter", "FocusGained", "InsertLeave" }, {
@@ -33,3 +34,17 @@ vim.api.nvim_create_autocmd({ "BufLeave", "FocusLost", "InsertEnter" }, {
 		vim.opt.relativenumber = false
 	end,
 })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    local wins = vim.api.nvim_list_wins()
+    if #wins == 1 and vim.bo.filetype == "NvimTree" then
+      -- Count listed (real) buffers
+      local listed = vim.fn.getbufinfo({ buflisted = 1 })
+      if #listed == 1 then
+        vim.cmd("quit")
+      end
+    end
+  end,
+})
+
