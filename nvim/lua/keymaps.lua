@@ -1,5 +1,5 @@
-vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', {})
-vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y', {})
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>Y", '"+Y', { desc = "Yank to system clipboard" })
 
 vim.keymap.set("n", "<Tab>", "<cmd>BufferLineCycleNext<CR>", { desc = "Next buffer" })
 vim.keymap.set("n", "<S-Tab>", "<cmd>BufferLineCyclePrev<CR>", { desc = "Prev buffer" })
@@ -13,11 +13,11 @@ vim.keymap.set("n", "<leader>sg", function()
     require("telescope.builtin").live_grep()
 end, { desc = "Live grep" })
 
-vim.keymap.set("n", "<leader>sb", function()
+vim.keymap.set("n", "<leader><leader>", function()
     require("telescope.builtin").buffers()
 end, { desc = "Find buffers" })
 
-vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
+vim.keymap.set("n", "<leader>sd", vim.diagnostic.open_float, { desc = "Show line diagnostics" })
 
 vim.keymap.set("n", "<leader>/", function()
     builtin = require("telescope.builtin")
