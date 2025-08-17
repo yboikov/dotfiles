@@ -147,6 +147,17 @@ return {
             bashls = {},
             shfmt = {},
             terraformls = {},
+            helm_ls = {
+                settings = {
+                    -- If yamlls was giving you grief, you can disable its integration:
+                    yamlls = {
+                        enabled = true,     -- set true if you want YAML schema/hover in templates
+                        path = "yaml-language-server",
+                        config = { completion = true, hover = true },
+                    },
+                },
+            },
+            yamlls = {},
             lua_ls = {
                 -- cmd = {...},
                 -- filetypes = { ...},
