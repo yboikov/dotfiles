@@ -1,4 +1,59 @@
-return { -- Autocompletion
+-- lua/plugins/cmp.lua
+return {
+    "hrsh7th/nvim-cmp",
+    dependencies = {
+        "hrsh7th/cmp-nvim-lsp",
+        "hrsh7th/cmp-buffer",
+        "hrsh7th/cmp-path",
+        "saadparwaiz1/cmp_luasnip",
+        "L3MON4D3/LuaSnip",
+        "rafamadriz/friendly-snippets",
+    },
+    opts = function(_, opts)
+        local cmp = require("cmp")
+        local luasnip = require("luasnip")
+
+        -- Load snippets from rafamadriz/friendly-snippets
+        require("luasnip.loaders.from_vscode").lazy_load()
+
+        opts.snippet = {
+            expand = function(args) luasnip.lsp_expand(args.body) end,
+        }
+
+        opts.completion = { autocomplete = { cmp.TriggerEvent.TextChanged } }
+
+        opts.sources = cmp.config.sources({
+            { name = "luasnip",  priority = 1000 },
+            { name = "nvim_lsp", priority = 900 },
+            { name = "path",     priority = 700 },
+            { name = "buffer",   priority = 500 },
+        })
+
+        opts.mapping = cmp.mapping.preset.insert({
+            ["<C-Space>"] = cmp.mapping.complete(),
+            ["<CR>"] = cmp.mapping.confirm({ select = true }),
+            ["<C-j>"] = cmp.mapping.select_next_item(),
+            ["<C-k>"] = cmp.mapping.select_prev_item(),
+        })
+
+        -- Snippet jumping (independent of cmp menu)
+        vim.keymap.set({ "i", "s" }, "<C-l>", function()
+            if luasnip.expand_or_jumpable() then
+                luasnip.expand_or_jump()
+            end
+        end, { silent = true, desc = "Jump forward in snippet" })
+
+        vim.keymap.set({ "i", "s" }, "<C-h>", function()
+            if luasnip.jumpable(-1) then
+                luasnip.jump(-1)
+            end
+        end, { silent = true, desc = "Jump backward in snippet" })
+
+        return opts
+    end,
+}
+
+--[[return { -- Autocompletion
     "hrsh7th/nvim-cmp",
     event = "InsertEnter",
     dependencies = {
@@ -47,7 +102,7 @@ return { -- Autocompletion
                     luasnip.lsp_expand(args.body)
                 end,
             },
-            completion = { completeopt = "menu,menuone,noinsert" },
+            completion = { completeopt = "menu,menuone,noinsert,noselec" },
 
             -- For an understanding of why these mappings were
             -- chosen, you will need to read `:help ins-completion`
@@ -114,4 +169,4 @@ return { -- Autocompletion
             },
         })
     end,
-}
+}]]
