@@ -14,6 +14,9 @@ return {
 			vim.lsp.protocol.make_client_capabilities(),
 			require("cmp_nvim_lsp").default_capabilities()
 		)
+		local tfcaps = vim.lsp.protocol.make_client_capabilities()
+		tfcaps.workspace = tfcaps.workspace or {}
+		tfcaps.workspace.didChangeWatchedFiles = { dynamicRegistration = true }
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			group = vim.api.nvim_create_augroup("user-lsp-attach", { clear = true }),
@@ -46,7 +49,21 @@ return {
 		local servers = {
 			gopls = {},
 			bashls = {},
-			terraformls = {},
+			jsonnet_ls = {
+				settings = { jsonnet = { importPaths = { "vendor" } } },
+			},
+			terraformls = {
+				settings = {
+					capabilities = tfcaps,
+					-- optional but helpful:
+					settings = {
+						terraform = {
+							-- re-validate on save
+							validateOnSave = true,
+						},
+					},
+				},
+			},
 			helm_ls = {
 				settings = {
 					["helm-ls"] = {
