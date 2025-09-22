@@ -1,10 +1,12 @@
 {
-  description = "Example nix-darwin system flake";
+  description = "Nix configuration";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
-    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
+    nix-darwin = { 
+        url = "github:nix-darwin/nix-darwin/master";
+        inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs }:
@@ -13,8 +15,16 @@
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
       environment.systemPackages =
-        [ pkgs.vim
+        [ 
+            pkgs.neovim
+            pkgs.kitty
+            pkgs.maccy
+            pkgs.aerospace
         ];
+
+      fonts.packages = with pkgs; [
+    	pkgs.jetbrains-mono
+      ];
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
@@ -31,13 +41,22 @@
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
+      security.pam.services.sudo_local = {
+        enable = true;          # usually true by default, but be explicit
+        touchIdAuth = true;     # add pam_tid.so for sudo
+        # Optional: make Touch ID work inside tmux/screen
+        reattach = true;        # adds pam_reattach.so line
+        # If you want full control instead, use `text = '' ... ''` to provide the file.
+      };
     };
   in
   {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#Yordans-MacBook-Air-M2
     darwinConfigurations."m2-air-home" = nix-darwin.lib.darwinSystem {
-      modules = [ configuration ];
+      modules = [ 
+        configuration 
+      ];
     };
   };
 }
