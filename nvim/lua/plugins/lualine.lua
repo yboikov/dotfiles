@@ -4,7 +4,7 @@ return {
 	config = function()
 		require("lualine").setup({
 			sections = {
-				lualine_x = { { "filename", path = 2 } },
+				lualine_c = { { "filename", path = 1 } },
 			},
 		})
 	end,

@@ -1,0 +1,90 @@
+export EDITOR='nvim'
+alias vim=nvim
+alias cat="bat -P"
+export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:/opt/homebrew/bin
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
+export PATH="$HOME/.gem/ruby/3.3.0/bin:$PATH"
+
+export KEYTIMEOUT=1
+export VI_MODE_SET_CURSOR=true
+export ZVM_SYSTEM_CLIPBOARD_ENABLED=true
+# export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --query '!openshift- !kube'"
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --no-mouse"
+
+kubectl() {
+  if [[ "$1" = ns ]]; then
+    shift
+    FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --query '!openshift- !kube '" command kubectl ns "$@"
+  else
+    command kubectl "$@"
+  fi
+}
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+precmd() {
+    cwd=${PWD##*/}
+    cwd=${cwd:-/}
+    eval 'printf "\033]2;${cwd}\007"'
+}
+
+
+ssh() {
+    if [[ ! -z $TMUX ]]; then
+        SERVER=$(command ssh -G $@ | grep ^hostname | awk '{print $2}')
+        # printf "\033]2;󰌘 $SERVER\007"
+        if [[ $SERVER =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            printf "\033]2;󰌘 ${SERVER}\007"
+        else
+            printf "\033]2;󰌘 ${SERVER%%.*}\007"
+        fi    
+    fi
+    command ssh "$@"
+}
+
+##################### ctrl-w
+#
+# Create a new widget.
+zle -N backward-kill-space-word
+backward-kill-space-word() {
+  # Inform the line editor that this widget will kill text.
+  zle -f kill
+
+  # Set $WORDCHARS for this command only. 
+  WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>|' zle .backward-kill-word
+}
+
+# See comments above.
+zle -N backward-kill-bash-word
+backward-kill-bash-word() {
+  zle -f kill
+  WORDCHARS='' zle .backward-kill-word
+}
+
+# Bind the widgets to keys.
+bindkey   '^W' backward-kill-space-word
+bindkey '^[^H' backward-kill-bash-word
+
+AWS_INSTANCE_CONNECT_ZSH_FZF_OPTS=(
+            --border 
+            --prompt="Search: "
+            --header="<Enter>: Connect | <C-i>: copy ip | <C-n>: copy name | <C-/>: hide/show details"
+            --color header:italic
+            --color header:dim
+            --color 'bg:-1'
+            --height=~60%
+            --layout=default
+            --preview-label="Details"
+            --no-mouse
+            )
+# sets tab title to instance name - in tmux
+AWS_INSTANCE_CONNECT_ZSH_PRE_CMD='[[ "${instance_name}" == "N/A" ]] && printf "\033]2;󰌘 ${instance_id}\007" || printf "\033]2;󰌘 ${instance_name}\007"'
+alias eic='_aws_instance_connect_ssh "Name=instance-state-name,Values=running"'
+
+# ec2() {
+#     aws ec2 describe-instances --query "Reservations[].Instances[].[InstanceId,Tags[?Key=='Name']|[0].Value,InstanceType,Placement.AvailabilityZone,PlatformDetails,PrivateIpAddress,State.Name]" --output text | fzf --bind "enter:become(aws ec2-instance-connect ssh --private-key-file ~/.ssh/ibit-infra --os-user ec2-user --instance-id {1})"
+# }
+
